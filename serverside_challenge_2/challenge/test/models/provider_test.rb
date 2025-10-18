@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: providers
@@ -12,7 +14,7 @@
 #
 #  index_providers_on_code  (code) UNIQUE
 #
-require "test_helper"
+require 'test_helper'
 
 class ProviderTest < ActiveSupport::TestCase
   subject { build(:provider) }
