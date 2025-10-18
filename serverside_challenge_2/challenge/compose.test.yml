@@ -1,0 +1,21 @@
+services:
+  test-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+  test-web:
+    build: .
+    command: tail -f /dev/null
+    env_file:
+      - .env.test
+    volumes:
+      - .:/app
+    tty: true
+    stdin_open: true
+    depends_on:
+      - test-db
+volumes:
+  postgres_volume:
