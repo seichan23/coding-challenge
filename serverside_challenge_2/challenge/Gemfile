@@ -45,6 +45,7 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-shopify', require: false
   gem 'annotate', require: false
+  gem 'pry-rails'
 end
 
 group :development do
