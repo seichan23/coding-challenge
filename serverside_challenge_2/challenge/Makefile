@@ -1,5 +1,5 @@
 DC = docker compose
-DC_TEST = $(DC) -f compose.yml -f compose.test.yml
+DC_TEST = $(DC) -f compose.test.yml
 
 .PHONY: build up down web-bash init test-build test-up test-down test-web-bash
 
