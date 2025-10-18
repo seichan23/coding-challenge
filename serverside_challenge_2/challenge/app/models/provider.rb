@@ -13,4 +13,6 @@
 #  index_providers_on_code  (code) UNIQUE
 #
 class Provider < ApplicationRecord
+  validates :name, presence: true
+  validates :code, presence: true, uniqueness: true
 end
