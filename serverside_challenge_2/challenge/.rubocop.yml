@@ -16,6 +16,9 @@ Rails/LexicallyScopedActionFilter:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Style/WordArray:
+  EnforcedStyle: percent
+
 AllCops:
   SuggestExtensions: false
   Exclude:
