@@ -13,6 +13,19 @@
 #  index_providers_on_code  (code) UNIQUE
 #
 class Provider < ApplicationRecord
+  include CsvImportable
   validates :name, presence: true
   validates :code, presence: true, uniqueness: true
+
+  class << self
+    private
+
+    def csv_attributes
+      %w[code name]
+    end
+
+    def csv_upsert_unique_key
+      'code'
+    end
+  end
 end
