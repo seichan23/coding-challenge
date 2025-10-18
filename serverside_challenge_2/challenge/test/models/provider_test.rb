@@ -15,7 +15,9 @@
 require "test_helper"
 
 class ProviderTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  subject { build(:provider) }
+
+  should validate_presence_of(:name)
+  should validate_presence_of(:code)
+  should validate_uniqueness_of(:code)
 end
