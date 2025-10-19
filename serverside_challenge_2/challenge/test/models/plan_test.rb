@@ -26,6 +26,7 @@ class PlanTest < ActiveSupport::TestCase
   subject { build(:plan) }
 
   should belong_to(:provider)
+  should have_many(:basic_charges)
 
   should validate_presence_of(:name)
   should validate_presence_of(:code)
