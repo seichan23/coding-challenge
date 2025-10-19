@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: basic_charges
@@ -19,5 +21,22 @@
 #  fk_rails_...  (plan_id => plans.id)
 #
 class BasicCharge < ApplicationRecord
+  MAX_AMOUNT = 999_999.99
+
   belongs_to :plan
+
+  validates :ampere,
+    presence: true,
+    uniqueness: { scope: :plan_id },
+    numericality: {
+      only_integer: true,
+      greater_than: 0,
+      less_than_or_equal_to: INTEGER_MAX,
+    }
+  validates :amount,
+    presence: true,
+    numericality: {
+      greater_than_or_equal_to: 0,
+      less_than_or_equal_to: MAX_AMOUNT,
+    }
 end
