@@ -21,8 +21,21 @@
 #  fk_rails_...  (provider_id => providers.id)
 #
 class Plan < ApplicationRecord
+  include CsvImportable
   belongs_to :provider
 
   validates :name, presence: true
   validates :code, presence: true, uniqueness: { scope: :provider_id }
+
+  class << self
+    private
+
+    def csv_attributes
+      %w[provider_id name code]
+    end
+
+    def csv_upsert_unique_keys
+      %w[provider_id code]
+    end
+  end
 end
