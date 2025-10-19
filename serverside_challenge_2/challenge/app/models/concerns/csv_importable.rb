@@ -18,18 +18,21 @@ module CsvImportable
 
       CSV.foreach(file_path, headers: true, encoding: ENCODING).with_index(2) do |row, line_number|
         attrs = row.to_h.slice(*csv_attributes).compact
-        unique_value = attrs[csv_upsert_unique_key]
+        unique_keys = csv_upsert_unique_keys
+        unique_conditions = unique_keys.index_with { |key| attrs[key] }
 
-        raise UniqueKeyMissingError if unique_value.blank?
+        if unique_conditions.values.any?(&:blank?)
+          raise UniqueKeyMissingError, "ユニークキー(#{unique_keys.join(", ")})が空です"
+        end
 
-        record = find_or_initialize_by(csv_upsert_unique_key => unique_value)
+        record = find_or_initialize_by(unique_conditions)
         record.assign_attributes(attrs)
         record.save!
       rescue ActiveRecord::RecordInvalid => e
-        Rails.logger.error("[#{name}] 行数#{line_number}: #{e.record.errors.full_messages.join(", ")}(入力内容: #{row.to_h})")
+        Rails.logger.error("[#{name}] 行数#{line_number}: #{e.record.errors.full_messages.join(", ")} (入力内容: #{row.to_h})")
         raise
-      rescue UniqueKeyMissingError
-        Rails.logger.error("[#{name}] 行数#{line_number}: ユニークキー#{csv_upsert_unique_key}が空です(入力内容: #{row.to_h})")
+      rescue UniqueKeyMissingError => e
+        Rails.logger.error("[#{name}] 行数#{line_number}: #{e.message} (入力内容: #{row.to_h})")
         raise
       end
     end
@@ -40,7 +43,7 @@ module CsvImportable
       raise NotImplementedError
     end
 
-    def csv_upsert_unique_key
+    def csv_upsert_unique_keys
       raise NotImplementedError
     end
   end

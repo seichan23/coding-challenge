@@ -29,8 +29,8 @@ class Provider < ApplicationRecord
       %w[code name]
     end
 
-    def csv_upsert_unique_key
-      'code'
+    def csv_upsert_unique_keys
+      %w[code]
     end
   end
 end
