@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: plans
@@ -18,7 +20,7 @@
 #
 #  fk_rails_...  (provider_id => providers.id)
 #
-require "test_helper"
+require 'test_helper'
 
 class PlanTest < ActiveSupport::TestCase
   subject { build(:plan) }
