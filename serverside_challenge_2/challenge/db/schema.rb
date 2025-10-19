@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_19_162140) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_19_172807) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,18 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_19_162140) do
     t.index ["code"], name: "index_providers_on_code", unique: true
   end
 
+  create_table "usage_charges", force: :cascade do |t|
+    t.bigint "plan_id", null: false
+    t.integer "from_kwh", null: false
+    t.integer "to_kwh"
+    t.decimal "unit_price", precision: 8, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_id", "from_kwh"], name: "index_usage_charges_on_plan_id_and_from_kwh", unique: true
+    t.index ["plan_id"], name: "index_usage_charges_on_plan_id"
+  end
+
   add_foreign_key "basic_charges", "plans"
   add_foreign_key "plans", "providers"
+  add_foreign_key "usage_charges", "plans"
 end
