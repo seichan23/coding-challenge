@@ -99,4 +99,11 @@ class CsvImportableTest < ActiveSupport::TestCase
       Provider.import_from_csv!(Rails.root.join('test/fixtures/files/csv/providers_invalid.csv'))
     end
   end
+
+  test '.import_from_csv! は途中でエラーが発生した場合ロールバックする' do
+    assert_raises ActiveRecord::RecordInvalid do
+      Provider.import_from_csv!(Rails.root.join('test/fixtures/files/csv/providers_invalid.csv'))
+    end
+    assert { Provider.count == 0 }
+  end
 end

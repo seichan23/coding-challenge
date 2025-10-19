@@ -16,6 +16,9 @@
 #
 class Provider < ApplicationRecord
   include CsvImportable
+
+  has_many :plans, dependent: :destroy
+
   validates :name, presence: true
   validates :code, presence: true, uniqueness: true
 
@@ -26,8 +29,8 @@ class Provider < ApplicationRecord
       %w[code name]
     end
 
-    def csv_upsert_unique_key
-      'code'
+    def csv_upsert_unique_keys
+      %w[code]
     end
   end
 end

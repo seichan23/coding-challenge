@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_18_152428) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_19_014744) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "plans", force: :cascade do |t|
+    t.bigint "provider_id", null: false
+    t.string "name", null: false
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider_id", "code"], name: "index_plans_on_provider_id_and_code", unique: true
+    t.index ["provider_id"], name: "index_plans_on_provider_id"
+  end
 
   create_table "providers", force: :cascade do |t|
     t.string "name", null: false
@@ -22,4 +32,5 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_18_152428) do
     t.index ["code"], name: "index_providers_on_code", unique: true
   end
 
+  add_foreign_key "plans", "providers"
 end
