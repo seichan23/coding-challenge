@@ -19,4 +19,5 @@
 #  fk_rails_...  (provider_id => providers.id)
 #
 class Plan < ApplicationRecord
+  belongs_to :provider
 end
