@@ -24,6 +24,7 @@ class Plan < ApplicationRecord
   include CsvImportable
   belongs_to :provider
   has_many :basic_charges, dependent: :destroy
+  has_many :usage_charges, dependent: :destroy
 
   validates :name, presence: true
   validates :code, presence: true, uniqueness: { scope: :provider_id }
