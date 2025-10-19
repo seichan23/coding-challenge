@@ -21,5 +21,11 @@
 require "test_helper"
 
 class PlanTest < ActiveSupport::TestCase
+  subject { build(:plan) }
+
   should belong_to(:provider)
+
+  should validate_presence_of(:name)
+  should validate_presence_of(:code)
+  should validate_uniqueness_of(:code).scoped_to(:provider_id)
 end

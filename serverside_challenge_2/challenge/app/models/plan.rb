@@ -20,4 +20,7 @@
 #
 class Plan < ApplicationRecord
   belongs_to :provider
+
+  validates :name, presence: true
+  validates :code, presence: true, uniqueness: { scope: :provider_id }
 end
