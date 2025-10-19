@@ -21,6 +21,7 @@
 #  fk_rails_...  (plan_id => plans.id)
 #
 class BasicCharge < ApplicationRecord
+  include CsvImportable
   MAX_AMOUNT = 999_999.99
 
   belongs_to :plan
@@ -39,4 +40,16 @@ class BasicCharge < ApplicationRecord
       greater_than_or_equal_to: 0,
       less_than_or_equal_to: MAX_AMOUNT,
     }
+
+  class << self
+    private
+
+    def csv_attributes
+      %w[plan_id ampere amount]
+    end
+
+    def csv_upsert_unique_keys
+      %w[plan_id ampere]
+    end
+  end
 end
