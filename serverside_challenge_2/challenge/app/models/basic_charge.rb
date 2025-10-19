@@ -19,4 +19,5 @@
 #  fk_rails_...  (plan_id => plans.id)
 #
 class BasicCharge < ApplicationRecord
+  belongs_to :plan
 end
