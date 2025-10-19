@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_19_014744) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_19_162140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "basic_charges", force: :cascade do |t|
+    t.bigint "plan_id", null: false
+    t.integer "ampere", null: false
+    t.decimal "amount", precision: 8, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_id", "ampere"], name: "index_basic_charges_on_plan_id_and_ampere", unique: true
+    t.index ["plan_id"], name: "index_basic_charges_on_plan_id"
+  end
 
   create_table "plans", force: :cascade do |t|
     t.bigint "provider_id", null: false
@@ -32,5 +42,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_19_014744) do
     t.index ["code"], name: "index_providers_on_code", unique: true
   end
 
+  add_foreign_key "basic_charges", "plans"
   add_foreign_key "plans", "providers"
 end
