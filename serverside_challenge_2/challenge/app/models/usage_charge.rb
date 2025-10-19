@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: usage_charges
@@ -20,4 +22,5 @@
 #  fk_rails_...  (plan_id => plans.id)
 #
 class UsageCharge < ApplicationRecord
+  belongs_to :plan
 end

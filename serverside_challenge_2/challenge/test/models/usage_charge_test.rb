@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: usage_charges
@@ -19,10 +21,8 @@
 #
 #  fk_rails_...  (plan_id => plans.id)
 #
-require "test_helper"
+require 'test_helper'
 
 class UsageChargeTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  belong_to(:plan)
 end
