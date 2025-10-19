@@ -19,6 +19,7 @@ require 'test_helper'
 class ProviderTest < ActiveSupport::TestCase
   subject { build(:provider) }
 
+  should have_many(:plans)
   should validate_presence_of(:name)
   should validate_presence_of(:code)
   should validate_uniqueness_of(:code)
