@@ -11,6 +11,10 @@ ja:
       provider:
         code: コード
         name: 名前
+      usage_charge:
+        from_kwh: 使用量(kwh)の下限
+        to_kwh: 使用量(kwh)の上限
+        unit_price: 単価
   date:
     abbr_day_names:
     - 日
