@@ -22,6 +22,7 @@
 #  fk_rails_...  (plan_id => plans.id)
 #
 class UsageCharge < ApplicationRecord
+  include CsvImportable
   MAX_AMOUNT = 999_999.99
   belongs_to :plan
 
@@ -42,6 +43,18 @@ class UsageCharge < ApplicationRecord
   }
   validate :validate_to_kwh_greater_than_from_kwh
   validate :validate_range_must_not_overlap
+
+  class << self
+    private
+
+    def csv_attributes
+      %w[plan_id from_kwh to_kwh unit_price]
+    end
+
+    def csv_upsert_unique_keys
+      %w[plan_id from_kwh]
+    end
+  end
 
   private
 
