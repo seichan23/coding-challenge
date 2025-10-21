@@ -27,6 +27,7 @@ class PlanTest < ActiveSupport::TestCase
 
   should belong_to(:provider)
   should have_many(:basic_charges)
+  should have_many(:usage_charges)
 
   should validate_presence_of(:name)
   should validate_presence_of(:code)
