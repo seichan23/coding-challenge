@@ -54,14 +54,14 @@ class ElectricityChargeCalculatorTest < ActiveSupport::TestCase
   test '.execute!は使用量0の場合に基本料金のみを返す' do
     basic_amount = 1000.00
     create(:basic_charge, plan: @plan, ampere: 10, amount: basic_amount)
-    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120, unit_price: 19.88)
+    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120)
 
     price = ElectricityChargeCalculator.execute!(plan: @plan, ampere: 10, usage: 0)
     assert { price == basic_amount }
   end
 
   test '.execute!は基本料金が存在しない場合にnilを返す' do
-    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120, unit_price: 19.88)
+    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120)
 
     price = ElectricityChargeCalculator.execute!(plan: @plan, ampere: 10, usage: 120)
     assert { price.nil? }
@@ -74,15 +74,15 @@ class ElectricityChargeCalculatorTest < ActiveSupport::TestCase
   end
 
   test '.execute!は使用量に対する従量料金区分が存在しない場合にnilを返す' do
-    create(:basic_charge, plan: @plan, ampere: 10, amount: 1000.00)
+    create(:basic_charge, plan: @plan, ampere: 10)
 
     price = ElectricityChargeCalculator.execute!(plan: @plan, ampere: 10, usage: 120)
     assert { price.nil? }
   end
 
   test '.execute!は契約アンペア数が指定されていない場合にエラーを返す' do
-    create(:basic_charge, plan: @plan, ampere: 10, amount: 1000.00)
-    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120, unit_price: 19.88)
+    create(:basic_charge, plan: @plan, ampere: 10)
+    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120)
 
     assert_raises ElectricityChargeCalculator::InvalidInputError do
       ElectricityChargeCalculator.execute!(plan: @plan, ampere: nil, usage: 120)
@@ -90,8 +90,8 @@ class ElectricityChargeCalculatorTest < ActiveSupport::TestCase
   end
 
   test '.execute!は使用量が指定されていない場合にエラーを返す' do
-    create(:basic_charge, plan: @plan, ampere: 10, amount: 1000.00)
-    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120, unit_price: 19.88)
+    create(:basic_charge, plan: @plan, ampere: 10)
+    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120)
 
     assert_raises ElectricityChargeCalculator::InvalidInputError do
       ElectricityChargeCalculator.execute!(plan: @plan, ampere: 10, usage: nil)
@@ -99,8 +99,8 @@ class ElectricityChargeCalculatorTest < ActiveSupport::TestCase
   end
 
   test '.execute!は使用量が負の数値の場合にエラーを返す' do
-    create(:basic_charge, plan: @plan, ampere: 10, amount: 1000.00)
-    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120, unit_price: 19.88)
+    create(:basic_charge, plan: @plan, ampere: 10)
+    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120)
 
     assert_raises ElectricityChargeCalculator::InvalidUsageError do
       ElectricityChargeCalculator.execute!(plan: @plan, ampere: 10, usage: -1)
@@ -108,8 +108,8 @@ class ElectricityChargeCalculatorTest < ActiveSupport::TestCase
   end
 
   test '.execute!は契約アンペア数が存在しない場合にエラーを返す' do
-    create(:basic_charge, plan: @plan, ampere: 10, amount: 1000.00)
-    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120, unit_price: 19.88)
+    create(:basic_charge, plan: @plan, ampere: 10)
+    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120)
 
     assert_raises ElectricityChargeCalculator::InvalidAmpereError do
       ElectricityChargeCalculator.execute!(plan: @plan, ampere: 11, usage: 120)
@@ -117,8 +117,8 @@ class ElectricityChargeCalculatorTest < ActiveSupport::TestCase
   end
 
   test '.execute!は契約アンペア数が数値に変換できない文字列の場合にエラーを返す' do
-    create(:basic_charge, plan: @plan, ampere: 10, amount: 1000.00)
-    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120, unit_price: 19.88)
+    create(:basic_charge, plan: @plan, ampere: 10)
+    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120)
 
     assert_raises ElectricityChargeCalculator::InvalidInputError do
       ElectricityChargeCalculator.execute!(plan: @plan, ampere: 'hoge', usage: 120)
@@ -126,8 +126,8 @@ class ElectricityChargeCalculatorTest < ActiveSupport::TestCase
   end
 
   test '.execute!は使用量が数値に変換できない文字列の場合にエラーを返す' do
-    create(:basic_charge, plan: @plan, ampere: 10, amount: 1000.00)
-    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120, unit_price: 19.88)
+    create(:basic_charge, plan: @plan, ampere: 10)
+    create(:usage_charge, plan: @plan, from_kwh: 0, to_kwh: 120)
 
     assert_raises ElectricityChargeCalculator::InvalidInputError do
       ElectricityChargeCalculator.execute!(plan: @plan, ampere: 10, usage: 'hoge')
