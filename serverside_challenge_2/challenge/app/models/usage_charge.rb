@@ -44,6 +44,8 @@ class UsageCharge < ApplicationRecord
   validate :validate_to_kwh_greater_than_from_kwh
   validate :validate_range_must_not_overlap
 
+  scope :for_usage, ->(usage) { where('from_kwh <= ?', usage) }
+
   class << self
     private
 
