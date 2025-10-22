@@ -63,21 +63,21 @@ class Api::V1::ElectricityChargesControllerTest < ActionDispatch::IntegrationTes
     get api_v1_electricity_charges_path, params: { ampere: nil, usage: 100 }
 
     assert_response :bad_request
-    assert { parse_response_body['error'] == '契約アンペア数と使用量は必須です。' }
+    assert { parse_response_body['error'] == '契約アンペア数(A)と使用量(kWh)は必須です。' }
   end
 
   test '#indexは使用量が空の場合に400を返す' do
     get api_v1_electricity_charges_path, params: { ampere: 10, usage: nil }
 
     assert_response :bad_request
-    assert { parse_response_body['error'] == '契約アンペア数と使用量は必須です。' }
+    assert { parse_response_body['error'] == '契約アンペア数(A)と使用量(kWh)は必須です。' }
   end
 
   test '#indexは契約アンペア数と使用量が空の場合に400を返す' do
     get api_v1_electricity_charges_path, params: { ampere: nil, usage: nil }
 
     assert_response :bad_request
-    assert { parse_response_body['error'] == '契約アンペア数と使用量は必須です。' }
+    assert { parse_response_body['error'] == '契約アンペア数(A)と使用量(kWh)は必須です。' }
   end
 
   test '#indexは契約アンペア数が無効な場合に400を返す' do
@@ -87,7 +87,7 @@ class Api::V1::ElectricityChargesControllerTest < ActionDispatch::IntegrationTes
     get api_v1_electricity_charges_path, params: { ampere: 'invalid', usage: 100 }
 
     assert_response :bad_request
-    assert { parse_response_body['error'] == '契約アンペア数と使用量は数値で指定してください。' }
+    assert { parse_response_body['error'] == '契約アンペア数(A)と使用量(kWh)は数値で指定してください。' }
   end
 
   test '#indexは使用量が無効な場合に400を返す' do
@@ -97,7 +97,7 @@ class Api::V1::ElectricityChargesControllerTest < ActionDispatch::IntegrationTes
     get api_v1_electricity_charges_path, params: { ampere: 10, usage: 'invalid' }
 
     assert_response :bad_request
-    assert { parse_response_body['error'] == '契約アンペア数と使用量は数値で指定してください。' }
+    assert { parse_response_body['error'] == '契約アンペア数(A)と使用量(kWh)は数値で指定してください。' }
   end
 
   test '#indexは従量料金区分が登録されていない場合に空配列を返す' do
