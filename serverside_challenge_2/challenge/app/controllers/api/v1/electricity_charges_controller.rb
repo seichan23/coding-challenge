@@ -6,7 +6,10 @@ class Api::V1::ElectricityChargesController < ApplicationController
     usage = params[:usage]
 
     if ampere.blank? || usage.blank?
-      return render(json: { error: '契約アンペア数と使用量は必須です。' }, status: :bad_request)
+      return render(
+        json: { error: I18n.t('api.v1.electricity_charges.errors.missing_parameters') },
+        status: :bad_request,
+      )
     end
 
     results = Plan.includes(:provider, :basic_charges, :usage_charges).filter_map do |plan|
@@ -22,7 +25,8 @@ class Api::V1::ElectricityChargesController < ApplicationController
          ElectricityChargeCalculator::InvalidAmpereError => e
     render(json: { error: e.message }, status: :bad_request)
   rescue StandardError => e
-    Rails.logger.error("エラーが発生しました。: #{e.message}")
-    render(json: { error: 'エラーが発生しました。' }, status: :internal_server_error)
+    error_message = I18n.t('api.v1.electricity_charges.errors.internal_server_error')
+    Rails.logger.error("#{error_message}: #{e.message}")
+    render(json: { error: error_message }, status: :internal_server_error)
   end
 end

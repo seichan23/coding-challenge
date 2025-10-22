@@ -10,7 +10,7 @@ class ElectricityChargeCalculator
 
   class << self
     def execute!(plan:, ampere:, usage:)
-      raise ArgumentError, 'planは必須です' if plan.nil?
+      raise ArgumentError, I18n.t('electricity_charge_calculator.errors.plan_required') if plan.nil?
 
       numeric_ampere = convert_to_numeric!(ampere)
       numeric_usage = convert_to_numeric!(usage)
@@ -23,12 +23,19 @@ class ElectricityChargeCalculator
     def convert_to_numeric!(value)
       Integer(value)
     rescue ArgumentError, TypeError
-      raise InvalidInputError, '契約アンペア数と使用量は数値で指定してください。'
+      raise InvalidInputError, I18n.t('electricity_charge_calculator.errors.invalid_input')
     end
 
     def validate_input!(ampere, usage)
-      raise InvalidUsageError, '使用量は0以上を指定してください。' if usage.negative?
-      raise InvalidAmpereError, "契約アンペア数は#{TARGET_AMPERES.join(", ")}のいずれかを指定してください。" if TARGET_AMPERES.exclude?(ampere)
+      raise InvalidUsageError, I18n.t('electricity_charge_calculator.errors.invalid_usage') if usage.negative?
+
+      if TARGET_AMPERES.exclude?(ampere)
+        raise InvalidAmpereError,
+          I18n.t(
+            'electricity_charge_calculator.errors.invalid_ampere',
+            target_amperes: TARGET_AMPERES.map { |ampere| "#{ampere}A" }.join(', '),
+          )
+      end
     end
 
     def calculate_total_price(plan, ampere, usage)
