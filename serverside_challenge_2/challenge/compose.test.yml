@@ -1,11 +1,11 @@
 services:
   test-db:
-    image: postgres
+    image: postgres:18
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     volumes:
-      - postgres_volume:/var/lib/postgresql/data
+      - postgres_volume:/var/lib/postgresql/18/docker
   test-api:
     build:
       context: ./api
