@@ -6,13 +6,15 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - postgres_volume:/var/lib/postgresql/data
-  test-web:
-    build: .
+  test-api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
     command: tail -f /dev/null
     env_file:
-      - .env.test
+      - ./api/.env.test
     volumes:
-      - .:/app
+      - ./api:/app
     tty: true
     stdin_open: true
     depends_on:
