@@ -7,7 +7,7 @@
 - フロントエンド: Next.js(TypeScript)
 - バックエンド: Ruby, Ruby on Rails
 - 本番環境:
-  - フロント: Vercel
+  - フロントエンド: Vercel
   - バックエンド: Cloud Run
   - データベース: Supabase(PostgreSQL)
 
@@ -67,4 +67,4 @@ rails db:migrate:reset db:seed
 - `Cloud RunのUIから環境変数の設定および`Image`の指定をしております。`
 
 - 各機能実装時の記録としてプルリクエストを随時作成しております。
-- 確認手順などはプルリクエストに詳細に記載させていただいております。
+- 確認手順などはプルリクエストへ詳細に記載させていただいております。
