@@ -83,4 +83,13 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins ENV.fetch('ALLOWED_ORIGIN')
+      resource '/api/v1/electricity_charges',
+        headers: :any,
+        methods: [:get]
+    end
+  end
 end
