@@ -1,5 +1,5 @@
-provider_id,name,code
-1,従量電灯B,juuryouB
-1,スタンダードS,standardS
-2,ずっとも電気1,zuttomo1
-3,おうちプラン,ouchiplan
+provider_code,name,code
+tepco,従量電灯B,juuryouB
+tepco,スタンダードS,standardS
+tokyo-gas,ずっとも電気1,zuttomo1
+looop-denki,おうちプラン,ouchiplan
