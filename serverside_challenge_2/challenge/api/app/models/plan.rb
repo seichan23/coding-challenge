@@ -32,8 +32,18 @@ class Plan < ApplicationRecord
   class << self
     private
 
+    def convert_attrs!(attrs)
+      @provider_code_ids ||= Provider.pluck(:code, :id).to_h
+      convert_code_to_id(
+        attrs,
+        code_key: 'provider_code',
+        id_key: 'provider_id',
+        target_mappings: @provider_code_ids
+      )
+    end
+
     def csv_attributes
-      %w[provider_id name code]
+      %w[provider_code name code]
     end
 
     def csv_upsert_unique_keys

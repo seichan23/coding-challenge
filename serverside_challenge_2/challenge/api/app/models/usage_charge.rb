@@ -49,8 +49,18 @@ class UsageCharge < ApplicationRecord
   class << self
     private
 
+    def convert_attrs!(attrs)
+      @plan_code_ids ||= Plan.pluck(:code, :id).to_h
+      convert_code_to_id(
+        attrs,
+        code_key: 'plan_code',
+        id_key: 'plan_id',
+        target_mappings: @plan_code_ids
+      )
+    end
+
     def csv_attributes
-      %w[plan_id from_kwh to_kwh unit_price]
+      %w[plan_code from_kwh to_kwh unit_price]
     end
 
     def csv_upsert_unique_keys
