@@ -106,4 +106,23 @@ class CsvImportableTest < ActiveSupport::TestCase
     end
     assert { Provider.count == 0 }
   end
+
+  test '.import_from_csv! はcodeからidへ変換してモデルにインポートする' do
+    Provider.import_from_csv!(@csv_file_path)
+    plan_csv_file_path = Rails.root.join('test/fixtures/files/csv/plans.csv')
+
+    assert_difference 'Plan.count', 4 do
+      Plan.import_from_csv!(plan_csv_file_path)
+    end
+
+    plan = Plan.find_by(code: 'juuryouB')
+    provider = Provider.find_by(code: 'tepco')
+    assert { plan.provider_id == provider.id }
+  end
+
+  test '.import_from_csv! はcodeが存在しない場合例外を発生させる' do
+    assert_raises CsvImportable::UniqueKeyMissingError do
+      Plan.import_from_csv!(Rails.root.join('test/fixtures/files/csv/plans_invalid_provider.csv'))
+    end
+  end
 end
