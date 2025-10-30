@@ -55,7 +55,7 @@ class UsageCharge < ApplicationRecord
         attrs,
         code_key: 'plan_code',
         id_key: 'plan_id',
-        target_mappings: @plan_code_ids
+        target_mappings: @plan_code_ids,
       )
     end
 

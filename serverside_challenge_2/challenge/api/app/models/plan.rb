@@ -38,7 +38,7 @@ class Plan < ApplicationRecord
         attrs,
         code_key: 'provider_code',
         id_key: 'provider_id',
-        target_mappings: @provider_code_ids
+        target_mappings: @provider_code_ids,
       )
     end
 
